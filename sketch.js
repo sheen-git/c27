@@ -1,10 +1,13 @@
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
+//3 namespace
+const Constraint = Matter.Constraint;
 
 var engine, world;
 var box1, pig1;
 var backgroundImg,platform;
+var constrainedLog; //1
 
 function preload() {
     backgroundImg = loadImage("sprites/bg.png");
@@ -15,7 +18,7 @@ function setup(){
     engine = Engine.create();
     world = engine.world;
 
-
+    constrainedLog = new Log(230,180,80, PI/2);//2
     ground = new Ground(600,height,1200,20);
     platform = new Ground(150, 305, 300, 170);
 
@@ -36,6 +39,21 @@ function setup(){
 
     bird = new Bird(100,100);
 
+    log6 = new Log(230,180,80, PI/2);
+    chain = new Chain(bird.body, log6.body);
+    //create options in JSON format. This is a format in which data is stored in js in an organized way
+    //var options = {
+    //    bodyA: bird.body,
+    //    bodyB: constrainedLog.body,
+    //    stiffness: 0.04,
+    //    length: 10
+   // }
+
+    //use option to create the constraint
+   // var chain = Constraint.create(options);
+   //World.add(world, chain);
+    //we need to add constraint to our world just like we did to other bodies in our game
+   
 }
 
 function draw(){
@@ -61,4 +79,12 @@ function draw(){
 
     bird.display();
     platform.display();
+    log6.display();
+    chain.display();
+    //display the constrainedLog
+   // constrainedLog.display();
+
+    //make a connection to the two bodies using line() instruction
+    //strokeWeight(3);
+   // line(bird.body.position.x, bird.body.position.y, constrainedLog.body.position.x, constrainedLog.body.position.y);
 }
